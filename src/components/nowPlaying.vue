@@ -1,18 +1,18 @@
 <template>
   <div class="film-list">
     <ul>
-      <li>
+      <li v-for="film in filmList" :key="film.filmId">
         <div class="left">
-          <img src="https://static.maizuo.com/pc/v5/usr/movie/ab0ee357e3fb0718059df8d8717a1bf7.jpg?x-oss-process=image/quality,Q_70">
+          <img :src="film.poster">
         </div>
         <div class="center">
-          <div class="name">中国机长</div>
-          <div class="grade">观众评分:<span>7</span></div>
+          <div class="name">{{film.name}}</div>
+          <div class="grade">观众评分:<span>{{film.grade}}</span></div>
           <div class="actors">
-            主演：张三、李四、王五、马六、赵七
+            主演：{{film.actors}}
           </div>
           <div class="detail">
-            中国大陆 | 111分钟
+            {{film.nation}} | {{film.runtime}}分钟
           </div>
         </div>
         <div class="right">
@@ -24,8 +24,18 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 export default {
-
+  name: 'NowPlaying',
+  computed: {
+    ...mapState('film',['filmList'])
+  },
+  methods: {
+    ...mapActions('film', ['getFilmList'])
+  },
+  created () {
+    this.getFilmList()
+  }
 }
 </script>
 
